@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 
-/**
- * Header - Sticky navigation bar with retrotech styling
- */
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('about');

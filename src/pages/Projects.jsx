@@ -5,10 +5,6 @@ import { projects } from '../data/projects';
 // Import the technical analysis HTML content
 import ocrAnalysisHtml from '../assets/Technical Analysis_OCR-lighting.html?raw';
 
-/**
- * Projects - Filterable grid of project cards
- * Uses useState for filter management and useMemo for filtering logic
- */
 const Projects = () => {
     const [activeFilter, setActiveFilter] = useState('All');
     const [showModal, setShowModal] = useState(false);
@@ -167,9 +163,6 @@ const Projects = () => {
     );
 };
 
-/**
- * ProjectCard - Individual project card component
- */
 const ProjectCard = ({ project, index, onTechnicalAnalysis }) => {
     const [isHovered, setIsHovered] = useState(false);
 

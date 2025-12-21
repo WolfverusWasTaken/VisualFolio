@@ -1,9 +1,5 @@
 import GlassSegment from './GlassSegment';
 
-/**
- * TechStack - Horizontal scrolling marquee of technology logos/names
- * Updated with user's specific skills
- */
 const TechStack = () => {
     const technologies = [
         { name: 'Python', icon: '🐍', color: '#3776AB' },

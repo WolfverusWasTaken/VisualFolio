@@ -1,9 +1,5 @@
 import TechStack from '../components/TechStack';
 
-/**
- * AboutMe - Full-width landing section
- * Contains intro, tech stack, and CTA buttons
- */
 const AboutMe = () => {
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
@@ -14,9 +10,6 @@ const AboutMe = () => {
 
     return (
         <div className="min-h-screen px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            {/* ═══════════════════════════════════════════════════════════════════════
-          INTRO SECTION - Full Width
-          ═══════════════════════════════════════════════════════════════════════ */}
             <div className="min-h-[85vh] flex items-center py-12">
                 <div className="bg-glass-dark backdrop-blur-md p-8 lg:p-12 rounded-lg border border-glass-border w-full">
                     {/* Terminal-style header */}

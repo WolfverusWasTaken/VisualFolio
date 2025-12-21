@@ -1,7 +1,3 @@
-/**
- * GlassSegment - Reusable Glassmorphism component with Retrotech styling
- * Applies semi-transparent background, blur effect, and CRT glow border
- */
 const GlassSegment = ({
     children,
     className = '',

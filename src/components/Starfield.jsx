@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-/**
- * Starfield - A parallax star background effect with planet
- * Creates multiple layers of stars that move at different speeds on scroll
- */
 const Starfield = () => {
     const starLayers = [
         { count: 100, speed: 0.1, size: '1px', opacity: 0.5 }, // Distant

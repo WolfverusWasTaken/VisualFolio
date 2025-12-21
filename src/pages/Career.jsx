@@ -1,9 +1,5 @@
 import { useState } from 'react';
 
-/**
- * Career - Split layout with vertical tabs (30%) and detail view (70%)
- * Updated with user's actual education and experience data
- */
 const Career = () => {
     const [activeMainTab, setActiveMainTab] = useState('experience');
     const [selectedExpId, setSelectedExpId] = useState(1);
