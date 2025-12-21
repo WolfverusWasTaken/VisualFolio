@@ -214,6 +214,22 @@ h3 {
   animation: twinkle 4s ease-in-out infinite;
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: slideIn 0.4s ease-out;
+}
+
 /* Responsive typography */
 @media (max-width: 768px) {
   h1 {

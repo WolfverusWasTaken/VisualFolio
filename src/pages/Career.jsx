@@ -113,13 +113,14 @@ const Career = () => {
 
     return (
         <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            {/* Section Header - Subtle styling */}
             <div className="text-center mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">
-                    Career Timeline
+                <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+                    <span className="text-gray-500">&lt;</span>
+                    Career
+                    <span className="text-gray-500">/&gt;</span>
                 </h2>
-                <p className="text-gray-500 max-w-2xl mx-auto">
-                    My professional journey and educational background
+                <p className="text-gray-400 max-w-2xl mx-auto">
+                    <span className="text-cyber-cyan">//</span> My professional journey and educational background
                 </p>
             </div>
 
