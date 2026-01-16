@@ -8,6 +8,20 @@ const Career = () => {
     const experienceData = [
         {
             id: 1,
+            role: 'AI Research Engineer (Intern/Team Lead)',
+            company: 'Agency for Science, Technology and Research (A*STAR)',
+            period: 'Dec 2025 – Ongoing',
+            location: 'Singapore',
+            description: 'Leading a team to collaborate with researchers from A*STAR on humanoid actuator design.',
+            highlights: [
+                'Developing Agents for Finite Element Analysis for humanoid actuator design using Langchain and the ReAct Agent Framework',
+                'Implementing PINNs to model actuator dynamics, reducing computational overhead by 40% while maintaining accuracy compared to traditional solvers',
+                'Integrated human-in-the-loop interfaces that allow users to steer agents for optimizing actuator torque-to-weight ratios through real-time feedback',
+            ],
+            technologies: ['React', 'Langchain', 'ReAct Framework', 'PINNs', 'Agentic AI'],
+        },
+        {
+            id: 2,
             role: 'Lead Student Engineer',
             company: 'AIRBORNE Lab @ SIT',
             period: 'Nov 2024 - Ongoing',
@@ -21,7 +35,7 @@ const Career = () => {
             technologies: ['Flight Algorithms', 'Agile', 'Drone Tech'],
         },
         {
-            id: 2,
+            id: 3,
             role: 'Research Assistant (Multimodal Speech Processing)',
             company: 'SIT x NVIDIA AI Center',
             period: 'Nov 2024 – Aug 2025',
@@ -35,7 +49,7 @@ const Career = () => {
             technologies: ['Speech Processing', 'Optimization', 'Real-time Systems'],
         },
         {
-            id: 3,
+            id: 4,
             role: 'AI Research Intern (Generative AI)',
             company: 'CYNAPSE.AI',
             period: 'May 2024 – Oct 2024',
@@ -49,7 +63,7 @@ const Career = () => {
             technologies: ['Docker', 'TensorRT', 'Triton Inference Server', 'Multimodal LLMs'],
         },
         {
-            id: 4,
+            id: 5,
             role: 'AI Software Engineer Intern (Vision AI)',
             company: 'CYNAPSE.AI',
             period: 'Aug 2021 – June 2022',
@@ -62,7 +76,7 @@ const Career = () => {
             technologies: ['OpenCV', 'Blender', 'Unity', 'TensorFlow', 'PyTorch', 'Darknet'],
         },
         {
-            id: 5,
+            id: 6,
             role: 'Robotics & Automation Engineer Intern',
             company: 'Univac Precision Engineering Pte Ltd',
             period: 'Mar 2021 – Aug 2021',
@@ -158,7 +172,7 @@ const Career = () => {
             <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-6">
 
                 {/* Left Panel - Vertical Tabs (30%) - Solid background for readability */}
-                <div className="bg-glass-dark backdrop-blur-md p-4 rounded-lg border border-glass-border space-y-2">
+                <div className="bg-glass-dark backdrop-blur-md p-4 rounded-lg border border-glass-border space-y-2 max-h-[60vh] overflow-y-auto">
                     {currentData.map((item) => (
                         <button
                             key={item.id}
