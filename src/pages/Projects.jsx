@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import GlassSegment from '../components/GlassSegment';
 import { projects } from '../data/projects';
 
@@ -60,7 +61,7 @@ const Projects = () => {
         setTimeout(() => {
             setShowModal(false);
             setIsClosing(false);
-        }, 300);
+        }, 500);
     };
 
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % bogoBeautySlides.length);
@@ -134,30 +135,32 @@ const Projects = () => {
                 </p>
             </div>
 
-            {/* Technical Docs Modal */}
-            {showModal && (
+            {/* Technical Docs Modal - Right Sliding Panel rendered via Portal */}
+            {showModal && createPortal(
                 <div
-                    className={`fixed z-50 flex items-end justify-center p-4 pb-8 transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-100'}`}
+                    className={`fixed inset-0 z-[10001] ${isClosing ? 'opacity-0 transition-opacity duration-500' : 'animate-backdrop-in'}`}
                     onClick={closeModal}
                     style={{
-                        top: '64px',
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        backdropFilter: 'blur(4px)'
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        backdropFilter: 'blur(8px)'
                     }}
                 >
                     <div
-                        className={`bg-gray-900 border border-white/10 rounded-lg max-w-4xl w-full max-h-[75vh] overflow-hidden shadow-2xl transition-all duration-300 ${isClosing ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                        className={`absolute top-0 right-0 h-full w-full ${modalType === 'slideshow' ? 'max-w-4xl' : 'max-w-2xl'} bg-gray-900 shadow-2xl flex flex-col transition-all duration-500 ${isClosing ? 'translate-x-full' : 'translate-x-0'
                             }`}
                         onClick={(e) => e.stopPropagation()}
+                        style={{ borderLeft: '1px solid rgba(0, 255, 255, 0.2)' }}
                     >
-                        <div className="flex items-center justify-between p-4 border-b border-white/10">
-                            <h3 className="text-lg font-semibold text-white">{modalTitle}</h3>
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-deep-space/50 backdrop-blur-md">
+                            <div>
+                                <h3 className="text-xl font-bold text-cyber-cyan tracking-wider uppercase">
+                                    {modalTitle}
+                                </h3>
+                            </div>
                             <button
                                 onClick={closeModal}
-                                className="text-gray-400 hover:text-white transition-colors"
+                                className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all border border-transparent hover:border-white/10"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -165,57 +168,40 @@ const Projects = () => {
                             </button>
                         </div>
 
-                        {modalType === 'html' ? (
-                            <div className="overflow-auto max-h-[calc(85vh-60px)]">
-                                <iframe
-                                    srcDoc={modalContent}
-                                    className="w-full h-[70vh] bg-white"
-                                    title="Technical Docs"
-                                />
-                            </div>
-                        ) : (
-                            <div className="relative flex items-center justify-center p-4 min-h-[60vh]">
-                                <button
-                                    onClick={prevSlide}
-                                    className="absolute left-4 z-20 p-2 text-white bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-
-                                <div className="relative w-full flex items-center justify-center" style={{ height: '55vh' }}>
-                                    {bogoBeautySlides.map((slide, index) => (
-                                        <img
-                                            key={index}
-                                            src={slide}
-                                            alt={`Slide ${index + 1}`}
-                                            className={`absolute max-h-[55vh] max-w-full object-contain rounded-lg shadow-2xl transition-all duration-500 ease-out ${index === currentSlide
-                                                ? 'opacity-100 translate-x-0 z-10'
-                                                : index < currentSlide
-                                                    ? 'opacity-0 -translate-x-full z-0'
-                                                    : 'opacity-0 translate-x-full z-0'
-                                                }`}
-                                        />
-                                    ))}
+                        {/* Modal Content */}
+                        <div className="flex-grow overflow-hidden flex flex-col">
+                            {modalType === 'html' ? (
+                                <div className="flex-grow bg-white overflow-hidden relative group">
+                                    <iframe
+                                        srcDoc={modalContent}
+                                        className="w-full h-full border-0"
+                                        title="Technical Docs"
+                                    />
+                                    {/* Subtle overlay for premium feel */}
+                                    <div className="absolute inset-0 pointer-events-none border-inset border-8 border-gray-900/5 transition-opacity group-hover:opacity-0"></div>
                                 </div>
-
-                                <button
-                                    onClick={nextSlide}
-                                    className="absolute right-4 z-20 p-2 text-white bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-
-                                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm z-20">
-                                    {currentSlide + 1} / {bogoBeautySlides.length}
+                            ) : (
+                                <div className="flex-grow overflow-y-auto bg-black/40 scroll-smooth">
+                                    <div className="w-full space-y-0">
+                                        {bogoBeautySlides.map((slide, index) => (
+                                            <div key={index} className="group relative">
+                                                <img
+                                                    src={slide}
+                                                    alt={`Bogo Beauty Slide ${index + 1}`}
+                                                    className="w-full h-auto brightness-90 hover:brightness-100 transition-all duration-500"
+                                                />
+                                                <div className="absolute top-4 left-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded border border-white/10 text-xs font-mono text-cyber-cyan opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    IMAGE_{String(index + 1).padStart(2, '0')}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

@@ -1,0 +1,12 @@
+{
+    "paths": {
+        "robotics_path": {
+            "enabled": true,
+            "description": "Robotics focused slideshow view"
+        },
+        "enhancement_path": {
+            "enabled": true,
+            "description": "Image and Audio Enhancement focused slideshow view"
+        }
+    }
+}

@@ -52,9 +52,27 @@
             line-height: 1.5;
         }
         .paper {
-            max-width: 1080px; /* Mimics ArXiv's text width */
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 1in 1in;
+            padding: 1in;
+            box-sizing: border-box;
+        }
+        @media (max-width: 768px) {
+            .paper {
+                padding: 0.5in;
+            }
+        }
+        @media (max-width: 480px) {
+            .paper {
+                padding: 0.2in;
+            }
+            body {
+                font-size: 10pt;
+            }
+            h1 {
+                font-size: 18pt;
+                margin-bottom: 0.4in;
+            }
         }
         h1 {
             font-size: 22pt; /* Increased for larger, bolder title */
@@ -86,33 +104,44 @@
             font-size: 11pt;
             margin-bottom: 0.1in;
         }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 0.2in 0;
+        }
         table {
             width: 100%;
+            min-width: 600px; /* Ensure table doesn't get too squashed */
             border-collapse: collapse;
-            margin: 0.2in 0;
             font-size: 10pt;
         }
+        @media (max-width: 480px) {
+            table {
+                font-size: 8pt;
+                min-width: 450px;
+            }
+        }
         th, td {
-            padding: 0.05in; /* Tight LaTeX-like padding */
+            padding: 0.05in; 
             text-align: left;
-            border: none; /* No vertical borders for booktabs */
+            border: none; 
         }
         th {
             font-weight: bold;
         }
         td.number, th.number {
-            text-align: right; /* Right-align numerical columns */
+            text-align: right; 
         }
         /* Booktabs-style horizontal rules */
         tr:first-child th {
-            border-top: 1.5pt solid black; /* \toprule */
-            border-bottom: 1.5pt solid black; /* \midrule */
+            border-top: 1.5pt solid black; 
+            border-bottom: 1.5pt solid black; 
         }
         tr:not(:first-child):not(:last-child) td {
-            border-bottom: 0.5pt solid black; /* \cmidrule */
+            border-bottom: 0.5pt solid black; 
         }
         tr:last-child td {
-            border-bottom: 1.5pt solid black; /* \bottomrule */
+            border-bottom: 1.5pt solid black; 
         }
         .caption {
             text-align: center;
@@ -135,6 +164,9 @@
         code {
             font-family: 'Latin Modern Sans', monospace;
             font-size: 10pt;
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
         a {
             color: #0000FF;
@@ -179,40 +211,42 @@
         <h2>4. Results</h2>
         <p>Performance was evaluated on full-page PDFs using ONNX Runtime with CUDA 12. The initial run used FP32 precision for both CRAFT and PP-OCRv3 models. M1 used FP16 precision for both models. M2 used FP16 precision with line clustering, determining the maximum line length by computing the maximum bounding box width across all lines on the page. Results are presented in Table 1.</p>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Run</th>
-                    <th class="number">Detection Time (s)</th>
-                    <th class="number">Line Cropping Time (s)</th>
-                    <th class="number">Recognition Time (s)</th>
-                    <th class="number">Total Time (s)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Initial (FP32)</td>
-                    <td class="number">0.324</td>
-                    <td class="number">0.012</td>
-                    <td class="number">0.955</td>
-                    <td class="number">1.291</td>
-                </tr>
-                <tr>
-                    <td>M1 (FP16)</td>
-                    <td class="number">0.147</td>
-                    <td class="number">0.013</td>
-                    <td class="number">0.265</td>
-                    <td class="number">0.425</td>
-                </tr>
-                <tr>
-                    <td>M2 (FP16 + Clustering)</td>
-                    <td class="number">0.083</td>
-                    <td class="number">0.008</td>
-                    <td class="number">0.204</td>
-                    <td class="number">0.295</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Run</th>
+                        <th class="number">Detection Time (s)</th>
+                        <th class="number">Line Cropping Time (s)</th>
+                        <th class="number">Recognition Time (s)</th>
+                        <th class="number">Total Time (s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Initial (FP32)</td>
+                        <td class="number">0.324</td>
+                        <td class="number">0.012</td>
+                        <td class="number">0.955</td>
+                        <td class="number">1.291</td>
+                    </tr>
+                    <tr>
+                        <td>M1 (FP16)</td>
+                        <td class="number">0.147</td>
+                        <td class="number">0.013</td>
+                        <td class="number">0.265</td>
+                        <td class="number">0.425</td>
+                    </tr>
+                    <tr>
+                        <td>M2 (FP16 + Clustering)</td>
+                        <td class="number">0.083</td>
+                        <td class="number">0.008</td>
+                        <td class="number">0.204</td>
+                        <td class="number">0.295</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <p class="caption">Table 1: Performance metrics for initial and modified runs (M1, M2) of the CRAFT x PP-OCRv3 pipeline on full-page PDFs.</p>
 
         <p><strong>Initial Run (FP32)</strong>: Processed a full-page PDF with FP32 precision, with recognition dominating at 0.955 s due to numerous text regions. <strong>M1 (FP16)</strong>: Used FP16 precision, reducing detection (0.147 s) and recognition (0.265 s) times by approximately 50%. <strong>M2 (FP16 + Clustering)</strong>: Further optimized with FP16 and line clustering (maximum line length via maximum bounding box width), achieving 0.083 s detection and 0.204 s recognition. Expected accuracy is ~0.85 F1-score for detection (ICDAR 2015) and ~0.92 for recognition (SynthText).</p>

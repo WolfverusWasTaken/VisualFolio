@@ -1,0 +1,445 @@
+.container {
+    background-color: #000000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.slidesWrapper {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    padding: 0 5vw;
+    /* Center the first slide */
+}
+
+.slide {
+    width: 95vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.slideContent {
+    max-width: 1600px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 8vh 2rem;
+}
+
+.centeredContent {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 350px;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    /* Centers the timeline in the remaining viewport space */
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -50vw;
+    /* Extend to left edge of viewport */
+    right: -50vw;
+    /* Extend to right edge of viewport */
+    height: 1px;
+    background: white;
+    transform: translateY(-50%);
+}
+
+.timelineItem {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.timelineContentWrapper {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding-right: 1.5rem;
+}
+
+.timelineItem:nth-child(odd) .timelineContentWrapper {
+    bottom: calc(50% + 40px);
+}
+
+.timelineItem:nth-child(even) .timelineContentWrapper {
+    top: calc(50% + 40px);
+}
+
+.timelineTick {
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 40px;
+    /* Connects content to horizontal line */
+    background: white;
+    top: 50%;
+}
+
+.timelineItem:nth-child(odd) .timelineTick {
+    transform: translateY(-100%);
+}
+
+.timelineItem:nth-child(even) .timelineTick {
+    transform: translateY(0);
+}
+
+.timelineDate {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    /* Larger font size */
+    color: #999;
+    /* Brighter gray for better legibility */
+    margin-bottom: 0.85rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+.timelineCompany {
+    color: white;
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.timelineRole {
+    color: #eee;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.timelineFocus {
+    font-size: 0.8rem;
+    color: #888;
+    line-height: 1.4;
+}
+
+.projectLayout {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+    gap: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #000;
+}
+
+.projectNav {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+}
+
+.navItem {
+    padding: clamp(1rem, 2vw, 2rem);
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
+    font-family: 'JetBrains Mono', monospace;
+    color: #444;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.navItemActive {
+    color: #000;
+    background: #fff;
+    font-weight: 800;
+    transform: scale(1.02);
+    /* Slight scale to emphasize importance */
+    z-index: 10;
+}
+
+.navItemSubActive {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    border-left: 2px solid #fff;
+    z-index: 9;
+}
+
+.navItemActive::before {
+    display: none;
+    /* Removed the strip since we have full white bg */
+}
+
+.subItemsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0 1.5rem 3rem;
+    gap: 1.25rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 2rem;
+}
+
+.subNavItem {
+    font-size: 0.75rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.subNavItem:hover {
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.subNavItemActive {
+    color: var(--cyber-cyan) !important;
+    font-weight: bold;
+    transform: translateX(8px);
+}
+
+.subNavItemActive::before {
+    background: var(--cyber-cyan) !important;
+}
+
+.subNavItem::before {
+    content: '';
+    position: absolute;
+    left: -3rem;
+    top: 50%;
+    width: 2rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.projectDetails {
+    flex: 1;
+    padding: 2rem 3.5rem;
+    /* Reduced top padding for immediate alignment */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.projectTitle {
+    font-size: clamp(1.5rem, 3vw, 2.5rem) !important;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+    width: 100%;
+}
+
+.innerDetailSplit {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    /* Align to top of content row */
+    width: 100%;
+    flex: 1;
+}
+
+.videoSection {
+    flex: 1.5;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    max-height: 400px;
+    /* Prevent video from pushing content off screen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.enlargeButton {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    opacity: 0;
+    transition: all 0.3s ease, transform 0.3s ease;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    backdrop-filter: blur(8px);
+    z-index: 5;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    transform: translateY(5px);
+}
+
+.videoSection:hover .enlargeButton {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    backdrop-filter: blur(15px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modalContent {
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent img,
+.modalContent video {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.closeButton:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slideUpFade {
+    animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.videoSection video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Fitting without cropping */
+}
+
+.textSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.slide h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.slide p,
+.slide li {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    line-height: 1.6;
+    color: #a0a0a0;
+}
+
+.navHint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #444;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.disabledMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: black;
+    color: #333;
+    font-size: 1.5rem;
+}
