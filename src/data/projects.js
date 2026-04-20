@@ -20,11 +20,12 @@ export const projects = [
     {
         id: 9,
         title: "Pix2Depth",
-        description: "A high-precision spatial tracking pipeline using ZED Stereo Cameras and Deep Learning to map 2D image coordinates into real-world 3D depth space.",
-        tags: ["PyTorch", "Python", "AI", "Computer Vision"],
+        description: "Precision 3D spatial inference pipeline fusing YOLOv11 and ZED Stereographic vision for real-time target mapping. Engineered a custom room-space calibration engine achieving millimeter-level XYZ precision for autonomous hardware-in-the-loop tracking.",
+        tags: ["PyTorch", "Computer Vision", "ZED SDK", "Spatial AI", "Hardware-in-the-Loop", "YOLOv11"],
         github: null,
         link: null,
-        featured: true
+        featured: true,
+        technicalAnalysis: "/docs/Technical_Analysis_Pix2Depth.html"
     },
     {
         id: 2,

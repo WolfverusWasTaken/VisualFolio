@@ -6,6 +6,7 @@ import { projects } from '../data/projects';
 
 // Import the technical analysis HTML content
 import ocrAnalysisHtml from '../assets/Technical Analysis_OCR-lighting.html?raw';
+import pix2depthAnalysisHtml from '../assets/Technical_Analysis_Pix2Depth.html?raw';
 
 // Import BogoBeauty slideshow images
 import bogo1 from '../assets/BogoBeauty/1.png';
@@ -48,20 +49,22 @@ const Projects = () => {
         const docs = searchParams.get('docs');
         if (docs) {
             if (docs === 'ocr-lighting') {
-                openHtmlModal('OCR-lighting Technical Docs', ocrAnalysisHtml, false);
+                openHtmlModal('OCR-lighting Technical Docs', ocrAnalysisHtml, 'ocr-lighting', false);
+            } else if (docs === 'pix2depth') {
+                openHtmlModal('Pix2Depth Technical Docs', pix2depthAnalysisHtml, 'pix2depth', false);
             } else if (docs === 'bogo-beauty') {
                 openSlideshow('Bogo Beauty Slides', false);
             }
         }
     }, [searchParams]);
 
-    const openHtmlModal = (title, content, updateUrl = true) => {
+    const openHtmlModal = (title, content, slug, updateUrl = true) => {
         setModalTitle(title);
         setModalContent(content);
         setModalType('html');
         setIsClosing(false);
         setShowModal(true);
-        if (updateUrl) setSearchParams({ docs: 'ocr-lighting' });
+        if (updateUrl && slug) setSearchParams({ docs: slug });
     };
 
     const openSlideshow = (title, updateUrl = true) => {
@@ -135,17 +138,21 @@ const Projects = () => {
                         index={index}
                         onTechnicalDocs={
                             project.title === 'OCR-lighting'
-                                ? () => openHtmlModal('OCR-lighting Technical Docs', ocrAnalysisHtml)
-                                : project.title === 'Bogo Beauty'
-                                    ? () => openSlideshow('Bogo Beauty Slides')
-                                    : null
+                                ? () => openHtmlModal('OCR-lighting Technical Docs', ocrAnalysisHtml, 'ocr-lighting')
+                                : project.title === 'Pix2Depth'
+                                    ? () => openHtmlModal('Pix2Depth Technical Docs', pix2depthAnalysisHtml, 'pix2depth')
+                                    : project.title === 'Bogo Beauty'
+                                        ? () => openSlideshow('Bogo Beauty Slides')
+                                        : null
                         }
                         onCopyLink={
                             project.title === 'OCR-lighting'
                                 ? () => handleCopyLink('ocr-lighting', project.id)
-                                : project.title === 'Bogo Beauty'
-                                    ? () => handleCopyLink('bogo-beauty', project.id)
-                                    : null
+                                : project.title === 'Pix2Depth'
+                                    ? () => handleCopyLink('pix2depth', project.id)
+                                    : project.title === 'Bogo Beauty'
+                                        ? () => handleCopyLink('bogo-beauty', project.id)
+                                        : null
                         }
                         copyFeedback={copyFeedback === project.id}
                     />
