@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useSearchParams } from 'react-router-dom';
 import GlassSegment from '../components/GlassSegment';
 import { projects } from '../data/projects';
 
@@ -21,7 +22,9 @@ const Projects = () => {
     const [modalContent, setModalContent] = useState('');
     const [modalTitle, setModalTitle] = useState('');
     const [modalType, setModalType] = useState('html'); // 'html' or 'slideshow'
+    const [searchParams, setSearchParams] = useSearchParams();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [copyFeedback, setCopyFeedback] = useState(null); // project id or null
 
     const filters = ['All', 'Python', 'C', 'AI', 'Embedded/Robotics'];
 
@@ -40,20 +43,34 @@ const Projects = () => {
         });
     }, [activeFilter]);
 
-    const openHtmlModal = (title, content) => {
+    // Deep linking logic
+    useEffect(() => {
+        const docs = searchParams.get('docs');
+        if (docs) {
+            if (docs === 'ocr-lighting') {
+                openHtmlModal('OCR-lighting Technical Docs', ocrAnalysisHtml, false);
+            } else if (docs === 'bogo-beauty') {
+                openSlideshow('Bogo Beauty Slides', false);
+            }
+        }
+    }, [searchParams]);
+
+    const openHtmlModal = (title, content, updateUrl = true) => {
         setModalTitle(title);
         setModalContent(content);
         setModalType('html');
         setIsClosing(false);
         setShowModal(true);
+        if (updateUrl) setSearchParams({ docs: 'ocr-lighting' });
     };
 
-    const openSlideshow = (title) => {
+    const openSlideshow = (title, updateUrl = true) => {
         setModalTitle(title);
         setModalType('slideshow');
         setCurrentSlide(0);
         setIsClosing(false);
         setShowModal(true);
+        if (updateUrl) setSearchParams({ docs: 'bogo-beauty' });
     };
 
     const closeModal = () => {
@@ -61,7 +78,16 @@ const Projects = () => {
         setTimeout(() => {
             setShowModal(false);
             setIsClosing(false);
+            setSearchParams({});
         }, 500);
+    };
+
+    const handleCopyLink = (docsSlug, projectId) => {
+        const baseUrl = window.location.href.split('?')[0];
+        const shareUrl = `${baseUrl}?docs=${docsSlug}`;
+        navigator.clipboard.writeText(shareUrl);
+        setCopyFeedback(projectId);
+        setTimeout(() => setCopyFeedback(null), 2000);
     };
 
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % bogoBeautySlides.length);
@@ -114,6 +140,14 @@ const Projects = () => {
                                     ? () => openSlideshow('Bogo Beauty Slides')
                                     : null
                         }
+                        onCopyLink={
+                            project.title === 'OCR-lighting'
+                                ? () => handleCopyLink('ocr-lighting', project.id)
+                                : project.title === 'Bogo Beauty'
+                                    ? () => handleCopyLink('bogo-beauty', project.id)
+                                    : null
+                        }
+                        copyFeedback={copyFeedback === project.id}
                     />
                 ))}
             </div>
@@ -207,7 +241,7 @@ const Projects = () => {
     );
 };
 
-const ProjectCard = ({ project, index, onTechnicalDocs }) => {
+const ProjectCard = ({ project, index, onTechnicalDocs, onCopyLink, copyFeedback }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -217,12 +251,6 @@ const ProjectCard = ({ project, index, onTechnicalDocs }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="flex justify-between items-start mb-4">
-                <span className="text-xs text-gray-500 font-mono">
-                    PROJECT_{String(index + 1).padStart(2, '0')}
-                </span>
-            </div>
-
             <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyber-cyan transition-colors">
                 {project.title}
             </h3>
@@ -270,15 +298,37 @@ const ProjectCard = ({ project, index, onTechnicalDocs }) => {
                     </a>
                 )}
                 {onTechnicalDocs && (
-                    <button
-                        onClick={onTechnicalDocs}
-                        className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
-                    >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Technical Docs
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={onTechnicalDocs}
+                            className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Technical Docs
+                        </button>
+                        {onCopyLink && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onCopyLink();
+                                }}
+                                className={`p-1 rounded transition-all duration-300 ${copyFeedback ? 'bg-cyber-cyan/20 text-cyber-cyan shadow-glow' : 'text-gray-500 hover:text-cyber-cyan'}`}
+                                title="Copy direct link"
+                            >
+                                {copyFeedback ? (
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                    </svg>
+                                )}
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
         </GlassSegment>

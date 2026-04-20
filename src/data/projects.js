@@ -9,8 +9,26 @@ export const projects = [
         featured: true
     },
     {
+        id: 8,
+        title: "Semantics Compressor",
+        description: "Extreme semantic compression for vision. An agglomerative ternary backbone achieving 1.6x hardware acceleration via custom Triton kernels. Aggregates DINOv2 and SigLIP features for high-speed, low-bitweight intelligence.",
+        tags: ["PyTorch", "Python", "AI", "Computer Vision", "Distillation"],
+        github: "https://github.com/WolfverusWasTaken/semantics-compressor",
+        link: null,
+        featured: true
+    },
+    {
+        id: 9,
+        title: "Pix2Depth",
+        description: "A high-precision spatial tracking pipeline using ZED Stereo Cameras and Deep Learning to map 2D image coordinates into real-world 3D depth space.",
+        tags: ["PyTorch", "Python", "AI", "Computer Vision"],
+        github: null,
+        link: null,
+        featured: true
+    },
+    {
         id: 2,
-        title: "Bobscript: Multi Agent World Orchestrator Engine",
+        title: "Multi Agent World Orchestrator Engine",
         description: "Heterogeneous tri-database architecture (SQLite, NetworkX, LanceDB) for consistent world state and long-term agent memory. Features polymorphic state engine with custom LLM-generated schemas, achieving sub-800ms turn response times on local hardware.",
         tags: ["Python", "FastAPI", "React", "LanceDB", "GraphDB", "SQL", "AI", "LLM"],
         github: "https://github.com/WolfverusWasTaken/Bobscript/tree/main",
@@ -52,14 +70,5 @@ export const projects = [
         github: null,
         link: null,
         featured: true
-    },
-    {
-        id: 7,
-        title: "Embedding Visualizer",
-        description: "Benchmarking tool for multimodal encoders. Integrated FAISS vector storage with t-SNE and DBSCAN clustering visualizations. Built with Django backend.",
-        tags: ["Python", "Django", "Transformers", "Data Visualization", "FAISS"],
-        github: null,
-        link: null,
-        featured: false
     }
 ];
